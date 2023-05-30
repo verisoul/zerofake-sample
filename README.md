@@ -23,4 +23,4 @@ npm start
 
 ## Questions and Feedback
 Comprehensive documentation about Verisoul's Javascript SDK and API can be found at [docs.verisoul.xyz](https://docs.verisoul.xyz/). Additionally, reach out to Verisoul at [support@verisoul.xyz](mailto:support@verisoul.xyz) for any questions or feedback.
-# zerofake-sample
+
