@@ -8,7 +8,7 @@ _To run the app a Verisoul API Key and Public Key are required._ Schedule a call
 ## Getting Started
 1. Clone the repository
 
-2. Copy `.env.sample` to `.env` and fill in the `VERISOUL_API_KEY` value before sourcing the file.
+2. Copy `.env.sample` to `.env` and fill in the `VERISOUL_API_KEY` and `VERISOUL_PROJECT_ID` value before sourcing the file.
 ```bash
 cp .env.sample .env
 ```
