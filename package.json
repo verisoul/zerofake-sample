@@ -17,6 +17,7 @@
   "scripts": {
     "backend": "node backend/server.js",
     "start": "npm run backend & react-scripts start",
+    "start:front" : "react-scripts start --disable-host-check",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
