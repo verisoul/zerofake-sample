@@ -28,6 +28,8 @@ function LoginSignup() {
         event.preventDefault();
         setDisabled(true);
 
+        const verisoul = Verisoul || window.Verisoul;
+
         if (!accountIdentifier) {
             setDisabled(false);
             return;
@@ -59,11 +61,105 @@ function LoginSignup() {
             const results = await response.json();
             const decision = results.decision;
 
+            const urlParams = new URLSearchParams(window.location.search);
+            const LTConfigID = urlParams.get('LTConfigID');
+            const UDID = urlParams.get('UDID');
+
+            const uuidv4 = () => {
+                // for legacy browsers
+                return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11)
+                    .replace(/[018]/g, (c) =>
+                        (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> (c / 4))).toString(16)
+                    );
+            };
+
+            let error = null;
+            let auth_id = uuidv4();
+
+            console.log('Getting TrackingID');
+
+            if (UDID == null) {
+                try {
+                    verisoul.onAuth(auth_id);
+
+                    console.log('TrackingID:', trackingId);
+                    console.log('AuthID:', auth_id);
+                } catch (err) {
+                    console.log('TrackingID not found:', err);
+                    error = 'TrackingID not found';
+                }
+
+                const data = {
+                    tracking_id: trackingId,
+                    project_id: LTConfigID,
+                    env: process.env.REACT_APP_VERISOUL_ENV,
+                    error: error,
+                };
+
+                try {
+                    const response = await fetch('https://verisoul-lambdatest.herokuapp.com/sheets', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        console.log('Success:', result);
+                    } else {
+                        throw new Error(`Server responded with error ${response.status}`);
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                }
+            } else {
+                try {
+                    verisoul.onAuth(auth_id);
+
+                    console.log('TrackingID:', trackingId);
+                    console.log('AuthID:', auth_id);
+                } catch (err) {
+                    console.log('TrackingID not found:', err);
+                    error = 'TrackingID not found';
+                }
+
+                const data = {
+                    tracking_id: trackingId,
+                    config_id: LTConfigID,
+                    UDID: UDID,
+                    error: error,
+                };
+
+                try {
+                    const response = await fetch('https://verisoul-lambdatest.herokuapp.com/udid', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        console.log('Success:', result);
+                    } else {
+                        throw new Error(`Server responded with error ${response.status}`);
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                }
+            }
+
+
             if (decision === 'Real') {
                 navigate('/real', {state: {results}});
             } else {
                 navigate('/fake', {state: {results}});
             }
+
+
         } catch (error) {
             console.log('Error: ', error);
             setDisabled(false);
