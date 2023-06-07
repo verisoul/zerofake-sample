@@ -1,4 +1,4 @@
-# Verisoul Zero Fake Sample App
+# Verisoul ZeroFake Sample App
 
 ## Overview
 The purpose of this app is to demonstrate Verisoul's Zerofake Javascript integration. The repository contains a [create-react-app](https://create-react-app.dev/) project that uses Verisoul's script tag `verisoul` alongside an [Express](https://expressjs.com/) API server.

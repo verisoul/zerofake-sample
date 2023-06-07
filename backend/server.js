@@ -33,7 +33,7 @@ app.post("/api/authenticated", async (req, res) => {
             tracking_id,
             auth_id
         })
-        console.log('Body: ', body);
+
         // See https://docs.verisoul.xyz/api/zerofake-api/fake-user-prediction
         let response = await fetch(`${API_URL}/predict`, {
             method: 'POST',
@@ -48,8 +48,6 @@ app.post("/api/authenticated", async (req, res) => {
         res.status(500).send({error: err.message});
     }
 });
-
-
 
 const PORT = 5001;
 app.listen(PORT, () => {
