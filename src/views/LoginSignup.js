@@ -73,7 +73,7 @@ function LoginSignup() {
             return;
         }
         try {
-            const response = await fetch('/api/authenticated', {
+            const response = await fetch('https://backend.verisoul.dev/api/authenticated', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
