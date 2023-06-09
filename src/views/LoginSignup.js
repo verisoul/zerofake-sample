@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 
 function LoginSignup() {
@@ -24,6 +24,7 @@ function LoginSignup() {
         }
     }
 
+    const verisoulEnv = getVerisoulEnv();
 
     useEffect(() => {
         if (!verisoulEnv) {
@@ -49,6 +50,7 @@ function LoginSignup() {
 
         return env;
     };
+
 
 
     const handleSubmit = async (event) => {
