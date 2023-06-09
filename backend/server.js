@@ -1,20 +1,15 @@
-require("dotenv").config({path: `.env`});
+require("dotenv").config({ path: `.env` });
 const express = require('express');
-const fetch = require('node-fetch');
 const cors = require("cors");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-if(!process.env.VERISOUL_API_KEY) {
+if (!process.env.VERISOUL_API_KEY) {
     throw new Error('VERISOUL_API_KEY not set');
 }
-if(!process.env.REACT_APP_VERISOUL_ENV) {
-    throw new Error('REACT_APP_VERISOUL_ENV not set');
-}
 
-const API_URL = `https://api.${process.env.REACT_APP_VERISOUL_ENV}.verisoul.xyz/zerofake/`;
 const headers = {
     'x-api-key': process.env.VERISOUL_API_KEY,
     'Content-Type': 'application/json'
@@ -22,19 +17,36 @@ const headers = {
 
 app.post("/api/authenticated", async (req, res) => {
     try {
-        const {tracking_id, auth_id} = req.body;
+        const { tracking_id, auth_id } = req.body;
 
-        console.log("Received request on server")
+        console.log("Received request on server");
         console.log('Tracking ID: ', tracking_id);
         console.log('Auth ID: ', auth_id);
-
 
         const body = JSON.stringify({
             tracking_id,
             auth_id
-        })
+        });
 
-        // See https://docs.verisoul.xyz/api/zerofake-api/fake-user-prediction
+        // Determine the environment based on request headers
+        let environment;
+        const origin = req.headers.origin;
+        if (origin === 'http://dev.verisoul.dev') {
+            environment = 'dev';
+        } else if (origin === 'http://staging.verisoul.dev') {
+            environment = 'staging';
+        } else if (origin === 'http://sandbox.verisoul.dev') {
+            environment = 'sandbox';
+        } else if (origin === 'http://prod.verisoul.dev'){
+            environment = 'prod';
+        } else {
+            environment = 'dev';
+        }
+
+        const API_URL = `https://api.${environment}.verisoul.xyz/zerofake/`;
+
+        // Make the API request using fetch or node-fetch
+        const fetch = require('node-fetch');
         let response = await fetch(`${API_URL}/predict`, {
             method: 'POST',
             headers,
@@ -45,7 +57,7 @@ app.post("/api/authenticated", async (req, res) => {
 
         res.status(200).send(results);
     } catch (err) {
-        res.status(500).send({error: err.message});
+        res.status(500).send({ error: err.message });
     }
 });
 
