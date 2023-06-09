@@ -24,13 +24,9 @@ function LoginSignup() {
         }
     }
 
-    const verisoulEnv = getVerisoulEnv();
 
-    useEffect(() => {
-        if (!verisoulEnv) {
-            console.log('Verisoul environment not found. Please make sure you have included the Verisoul script in your index.html file.');
-        }
-    }, [verisoulEnv]);
+
+
 
     const getVerisoulEnv = () => {
         const hostname = window.location.hostname;
@@ -51,7 +47,13 @@ function LoginSignup() {
         return env;
     };
 
+    const verisoulEnv = getVerisoulEnv();
 
+    useEffect(() => {
+        if (!verisoulEnv) {
+            console.log('Verisoul environment not found. Please make sure you have included the Verisoul script in your index.html file.');
+        }
+    }, [verisoulEnv]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();

@@ -22,6 +22,36 @@ const getVerisoulScriptURL = () => {
     return `https://js.${env}.verisoul.xyz/bundle.js`;
 };
 
+
+// // Sentry Script
+// const sentryScript = document.createElement('script');
+// sentryScript.src = 'https://js.sentry-cdn.com/3d49a2a593044b2cacc1a8a58668228c.min.js';
+// sentryScript.crossOrigin = 'anonymous';
+// document.body.appendChild(sentryScript);
+//
+// // Sentry Initialization
+// const hostname = window.location.hostname;
+// let sentryEnvironment = '';
+//
+// if (hostname === 'dev.verisoul.dev') {
+//     sentryEnvironment = 'development';
+// } else if (hostname === 'sandbox.verisoul.dev') {
+//     sentryEnvironment = 'sandbox';
+// } else if (hostname === 'prod.verisoul.dev') {
+//     sentryEnvironment = 'production';
+// } else if (hostname === 'staging.verisoul.dev') {
+//     sentryEnvironment = 'staging';
+// } else {
+//     sentryEnvironment = 'development';
+// }
+// const sentryInitScript = document.createElement('script');
+// sentryInitScript.innerText = `
+//   Sentry.init({
+//     environment: '${sentryEnvironment}'
+//   });
+// `;
+// document.body.appendChild(sentryInitScript);
+
 /*
     Verisoul Script. This script is required for Verisoul to work.
 

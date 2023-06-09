@@ -15,6 +15,11 @@ const headers = {
     'Content-Type': 'application/json'
 };
 
+app.get('/', (req, res) => {
+    res.send('Hello, World!');
+});
+
+
 app.post("/api/authenticated", async (req, res) => {
     try {
         const { tracking_id, auth_id } = req.body;
