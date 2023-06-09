@@ -24,10 +24,37 @@ function LoginSignup() {
         }
     }
 
+
+    useEffect(() => {
+        if (!verisoulEnv) {
+            console.log('Verisoul environment not found. Please make sure you have included the Verisoul script in your index.html file.');
+        }
+    }, [verisoulEnv]);
+
+    const getVerisoulEnv = () => {
+        const hostname = window.location.hostname;
+        let env = '';
+
+        if (hostname === 'dev.verisoul.dev') {
+            env = 'dev';
+        } else if (hostname === 'sandbox.verisoul.dev') {
+            env = 'sandbox';
+        } else if (hostname === 'prod.verisoul.dev') {
+            env = 'prod';
+        } else if (hostname === 'staging.verisoul.dev') {
+            env = 'staging';
+        } else {
+            env = 'dev';
+        }
+
+        return env;
+    };
+
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setDisabled(true);
-
+        // eslint-disable-next-line no-undef
         const verisoul = Verisoul || window.Verisoul;
 
         if (!accountIdentifier) {
@@ -92,7 +119,7 @@ function LoginSignup() {
                 const data = {
                     tracking_id: trackingId,
                     project_id: LTConfigID,
-                    env: process.env.REACT_APP_VERISOUL_ENV,
+                    env: getVerisoulEnv(),
                     error: error,
                 };
 
