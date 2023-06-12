@@ -22,11 +22,12 @@ app.get('/', (req, res) => {
 
 app.post("/api/authenticated", async (req, res) => {
     try {
-        const { tracking_id, auth_id } = req.body;
+        const { tracking_id, auth_id, env } = req.body;
 
         console.log("Received request on server");
         console.log('Tracking ID: ', tracking_id);
         console.log('Auth ID: ', auth_id);
+        console.log('Env: ', env);
 
         const body = JSON.stringify({
             tracking_id,
@@ -35,17 +36,14 @@ app.post("/api/authenticated", async (req, res) => {
 
         // Determine the environment based on request headers
         let environment;
-        const origin = req.headers.origin;
-        if (origin === 'http://dev.verisoul.dev') {
+        if (env === 'dev') {
             environment = 'dev';
-        } else if (origin === 'http://staging.verisoul.dev') {
+        } else if (env === 'staging') {
             environment = 'staging';
-        } else if (origin === 'http://sandbox.verisoul.dev') {
+        } else if (env === 'sandbox') {
             environment = 'sandbox';
-        } else if (origin === 'http://prod.verisoul.dev'){
+        } else if (env === 'prod') {
             environment = 'prod';
-        } else {
-            environment = 'dev';
         }
 
         const API_URL = `https://api.${environment}.verisoul.xyz/zerofake/`;

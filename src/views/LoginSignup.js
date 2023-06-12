@@ -67,6 +67,7 @@ function LoginSignup() {
         }
 
         const trackingId = await getTrackingId();
+        const env = getVerisoulEnv();
 
         if (!trackingId) {
             setDisabled(false);
@@ -80,7 +81,8 @@ function LoginSignup() {
                 },
                 body: JSON.stringify({
                     tracking_id: trackingId,
-                    auth_id: accountIdentifier
+                    auth_id: accountIdentifier,
+                    env: env
                 })
             });
 
